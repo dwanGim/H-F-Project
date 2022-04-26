@@ -49,24 +49,26 @@ public class PreviewDAO {
 		
 		try {
 			con = ds.getConnection();
-			String sql = "SELECT * FROM preview WHERE postID =?";
+			String sql = "SELECT * FROM preview WHERE postID =? ORDER BY postTime DESC";
 			pstmt = con.prepareStatement(sql);
 
 			pstmt.setInt(1, postID);
 			
 			rs = pstmt.executeQuery();
 			
-			while(rs.next()) {
-				PreviewVO preview = new PreviewVO();
-				
-				preview.setPreviewID(rs.getInt(1));
-				preview.setPostID(rs.getInt(2));
-				preview.setPreviewContent(rs.getString(3));
-				preview.setPreviewLink(rs.getString(4));
-				
-				System.out.println("데이터 디버깅 : " + preview);
-				previewList.add(preview);
-				
+			for(int i = 0; i < 10; i++) {
+				if(rs.next()) {
+					PreviewVO preview = new PreviewVO();
+					
+					preview.setPreviewID(rs.getInt(1));
+					preview.setPostID(rs.getInt(2));
+					preview.setPreviewContent(rs.getString(3));
+					preview.setPreviewLink(rs.getString(4));
+					
+					System.out.println("데이터 디버깅 : " + preview);
+					previewList.add(preview);
+					
+				}
 			}
 			
 			System.out.println("리스트에 쌓인 자료 체크 : " + previewList);
